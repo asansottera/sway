@@ -1,3 +1,5 @@
+// (C) Copyright Andrea Sansottera 2011
+
 #include <boost/test/unit_test.hpp>
 
 #include "MinMaxHeap.h"
@@ -48,13 +50,6 @@ void CheckMinMaxHeapProperty(vector<int> & v) {
 			}
 		}
 	}
-}
-
-void print(vector<int> & v) {
-	for (vector<int>::iterator i = v.begin(); i != v.end(); i++) {
-		std::cout << *i << ((i != v.end() - 1) ? ", " : "");
-	}
-	std::cout << std::endl;
 }
 
 BOOST_AUTO_TEST_CASE(TestMakeHeap) {
@@ -190,7 +185,9 @@ BOOST_AUTO_TEST_CASE(TestPushHeap) {
 	push_minmaxheap(v.begin(), v.end());
 
 	BOOST_REQUIRE(v.size() == 102);
-	BOOST_CHECK(find(v.begin(), v.end(), 200) == v.begin() + 1 || find(v.begin(), v.end(), 200) == v.begin() + 2);
+	BOOST_CHECK(
+		find(v.begin(), v.end(), 200) == v.begin() + 1 ||
+		find(v.begin(), v.end(), 200) == v.begin() + 2);
 
 	CheckMinMaxHeapProperty(v);
 
@@ -212,7 +209,9 @@ BOOST_AUTO_TEST_CASE(TestPushHeapComp) {
 	push_minmaxheap(v.begin(), v.end(), IndirectComp<int>());
 
 	BOOST_REQUIRE(v.size() == 102);
-	BOOST_CHECK(find(v.begin(), v.end(), &b) == v.begin() + 1 || find(v.begin(), v.end(), &b) == v.begin() + 2);
+	BOOST_CHECK(
+		find(v.begin(), v.end(), &b) == v.begin() + 1 ||
+		find(v.begin(), v.end(), &b) == v.begin() + 2);
 
 	CheckMinMaxHeapPropertyPtr(v);
 
