@@ -26,10 +26,39 @@ private:
 	std::vector<T> m_heap;
 	Compare m_comp;
 public:
-	BoundedPriorityQueue(std::size_t size, Compare comp = Compare())
-		: m_heap(size) {
-		m_count = 0;
-		m_comp = comp;
+	/*!
+	Constructs an empty bounded priority queue of the given size.
+	*/
+	BoundedPriorityQueue(std::size_t size, const Compare & comp = Compare())
+		: m_count(0), m_heap(size), m_comp(comp) {
+	}
+	/*!
+	Constructs a bounded priority queue containing the items of the
+	container. The maximum size of the priority queue is equal to the size
+	of the container.
+	*/
+	BoundedPriorityQueue(const Container & container,
+						 const Compare & comp = Compare())
+		: m_count(0), m_heap(container.size()), m_comp(comp) {
+		typename Container::const_iterator itr;
+		for (itr = container.begin(); itr != container.end(); ++itr) {
+			push(*itr);
+		}
+	}
+	/*!
+	Constructs a bounded priority queue containing some of the items of the
+	container. The maximum size of the priority queue is provided as a
+	paramater and, in general, might be smaller than the size of the container.
+	In this case, the lowest priority elements are not inserted.
+	*/
+	BoundedPriorityQueue(std::size_t size,
+						 const Container & container,
+						 const Compare & comp = Compare())
+		: m_count(0), m_heap(size), m_comp(comp) {
+		typename Container::const_iterator itr;
+		for (itr = container.begin(); itr != container.end(); ++itr) {
+			push(*itr);
+		}
 	}
 	/*!
 	Tries to add a new element to the queue.
@@ -50,7 +79,7 @@ public:
 			}
 		} else {
 			m_heap[m_count] = obj;
-			m_count++;
+			++m_count;
 			push_minmaxheap(m_heap.begin(), m_heap.begin() + m_count, m_comp);
 		}
 
@@ -76,9 +105,16 @@ public:
 	/*!
 	Removes the highest priority element of the queue.
 	*/
-	void pop() {
+	void pop_top() {
 		popmin_minmaxheap(m_heap.begin(), m_heap.begin() + m_count, m_comp);
-		m_count--;
+		--m_count;
+	}
+	/*!
+	Removes the lowest priority element of the queue.
+	*/
+	void pop_bottom() {
+		popmax_minmaxheap(m_heap.begin(), m_heap.begin() + m_count, m_comp);
+		--m_count;
 	}
 	/*!
 	Returns the number of elements stored in the queue.

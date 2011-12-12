@@ -24,7 +24,7 @@ BOOST_AUTO_TEST_CASE(TestBPQ) {
 	BOOST_REQUIRE_EQUAL(bpq.size(), 2u);
 	BOOST_CHECK_EQUAL(bpq.top(), 5);
 
-	bpq.pop();
+	bpq.pop_top();
 
 	BOOST_REQUIRE_EQUAL(bpq.size(), 1u);
 	BOOST_CHECK_EQUAL(bpq.top(), 8);
