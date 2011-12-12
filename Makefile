@@ -1,4 +1,7 @@
-OBJS=ut.o utMinMaxHeap.o utBoundedPriorityQueue.o
+OBJS=\
+	ut.o \
+	utMinMaxHeap.o \
+	utBoundedPriorityQueue.o
 OBJ_OPT_FILES=$(patsubst %.o,obj/opt/%.o,$(OBJS))
 OBJ_DBG_FILES=$(patsubst %.o,obj/dbg/%.o,$(OBJS))
 
@@ -13,19 +16,24 @@ CXX=icpc
 DEP=icpc
 LINK=icpc
 DEPFLAGS=-std=c++0x
-CXXFLAGS_DBG=-O0 -g -std=c++0x -Wall -Wsign-compare -Wcheck -wd279 $(INCLUDE_DIRS)
-CXXFLAGS_OPT=-O2 -xHost -std=c++0x -Wall -Wsign-compare -Wcheck -wd279 $(INCLUDE_DIRS)
-CXXFLAGS_TGT=-O2 -march=core2 -std=c++0x -Wall -Wsign-compare -Wcheck -wd279 $(INCLUDE_DIRS)
-CXXFLAGS_PROF=-O2 -g -xHost -std=c++0x -Wall -Wsign-compare -Wcheck -wd279 $(INCLUDE_DIRS)
+CXXFLAGS_DBG=-O0 -g -std=c++0x -Wall -Wsign-compare -Wcheck -wd279
+CXXFLAGS_OPT=-O2 -xHost -std=c++0x -Wall -Wsign-compare -Wcheck -wd279
+else
+ifeq ($(TOOLS),clang)
+CXX=clang++
+DEP=clang++
+LINK=clang++
+DEPFLAGS=-std=c++0x
+CXXFLAGS_DBG=-O0 -g -std=c++0x -Wall
+CXXFLAGS_OPT=-O2 -march=native -Wall
 else
 CXX=g++
 DEP=g++
 LINK=g++
 DEPFLAGS=-std=c++0x
-CXXFLAGS_DBG=-O0 -g -std=c++0x -Wall -Wsign-compare $(INCLUDE_DIRS)
-CXXFLAGS_OPT=-O2 -march=native -std=c++0x -Wall -Wsign-compare $(INCLUDE_DIRS)
-CXXFLAGS_TGT=-O2 -march=core2 -std=c++0x -Wall -Wsign-compare $(INCLUDE_DIRS)
-CXXFLAGS_PROF=-O2 -g -march=native -std=c++0x -Wall -Wsign-compare $(INCLUDE_DIRS)
+CXXFLAGS_DBG=-O0 -g -std=c++0x -Wall -Wsign-compare
+CXXFLAGS_OPT=-O2 -march=native -std=c++0x -Wall -Wsign-compare
+endif
 endif
 
 all: bin/sway_test_opt bin/sway_test_dbg
@@ -45,13 +53,17 @@ ifneq ($(MAKECMDGOALS),clean)
 endif
 
 dep/%.d: src/%.cpp include/*.h
-	$(DEP) $(DEPFLAGS) -MM $(patsubst dep/%.d,src/%.cpp,$@) -MT $(patsubst dep/%.d,obj/opt/%.o,$@) -MT $(patsubst dep/%.d,obj/dbg/%.o,$@) $(INCLUDE_DIRS) > $@
+	$(DEP) $(DEPFLAGS) \
+	-MM $(patsubst dep/%.d,src/%.cpp,$@) \
+	-MT $(patsubst dep/%.d,obj/opt/%.o,$@) \
+	-MT $(patsubst dep/%.d,obj/dbg/%.o,$@) \
+	$(INCLUDE_DIRS) > $@
 
 obj/dbg/%.o: src/%.cpp
-	$(CXX) $(DEFINE) -c $(CXXFLAGS_DBG) $< -o $@
+	$(CXX) $(DEFINE) $(INCLUDE_DIRS) -c $(CXXFLAGS_DBG) $< -o $@
 
 obj/opt/%.o: src/%.cpp
-	$(CXX) $(DEFINE) -c $(CXXFLAGS_OPT) $< -o $@
+	$(CXX) $(DEFINE) $(INCLUDE_DIRS) -c $(CXXFLAGS_OPT) $< -o $@
 
 clean:
 	rm -f bin/*
