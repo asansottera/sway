@@ -1,4 +1,4 @@
-OBJS=ut.o utMinMaxHeap.o
+OBJS=ut.o utMinMaxHeap.o utBoundedPriorityQueue.o
 OBJ_OPT_FILES=$(patsubst %.o,obj/opt/%.o,$(OBJS))
 OBJ_DBG_FILES=$(patsubst %.o,obj/dbg/%.o,$(OBJS))
 
