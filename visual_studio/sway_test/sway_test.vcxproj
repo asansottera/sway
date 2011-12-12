@@ -131,6 +131,11 @@
     <ClCompile Include="..\..\src\ut_bounded_priority_queue.cpp" />
     <ClCompile Include="..\..\src\ut_minmaxheap.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\include\sway\bounded_priority_queue.hpp" />
+    <ClInclude Include="..\..\include\sway\ilog2.hpp" />
+    <ClInclude Include="..\..\include\sway\minmaxheap.hpp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
