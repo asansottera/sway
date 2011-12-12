@@ -123,6 +123,12 @@ public:
 		return m_count;
 	}
 	/*!
+	Returns the maximum number of elements that can be stored in the queue.
+	*/
+	std::size_t max_size() const {
+		return m_heap.size();
+	}
+	/*!
 	Returns true if the queue has no elements, false otherwise.
 	*/
 	bool empty() const {

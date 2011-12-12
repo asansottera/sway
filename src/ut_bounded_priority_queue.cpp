@@ -70,3 +70,51 @@ BOOST_AUTO_TEST_CASE(TestBPQSmall) {
 	BOOST_CHECK_EQUAL(bpq.top(), 1);
 	BOOST_CHECK_EQUAL(bpq.bottom(), 2);
 }
+
+BOOST_AUTO_TEST_CASE(TestBPQConstructFromVector) {
+
+	std::vector<int> data;
+	data.push_back(10);
+	data.push_back(11);
+	data.push_back(5);
+	data.push_back(9);
+
+	bounded_priority_queue<int> bpq(data);
+
+	BOOST_REQUIRE_EQUAL(bpq.size(), 4u);
+	BOOST_REQUIRE_EQUAL(bpq.max_size(), 4u);
+	BOOST_CHECK_EQUAL(bpq.top(), 5);
+	BOOST_CHECK_EQUAL(bpq.bottom(), 11);
+}
+
+BOOST_AUTO_TEST_CASE(TestBPQConstructFromLargerVector) {
+
+	std::vector<int> data;
+	data.push_back(10);
+	data.push_back(11);
+	data.push_back(5);
+	data.push_back(9);
+
+	bounded_priority_queue<int> bpq(3, data);
+
+	BOOST_REQUIRE_EQUAL(bpq.size(), 3u);
+	BOOST_REQUIRE_EQUAL(bpq.max_size(), 3u);
+	BOOST_CHECK_EQUAL(bpq.top(), 5);
+	BOOST_CHECK_EQUAL(bpq.bottom(), 10);
+}
+
+BOOST_AUTO_TEST_CASE(TestBPQConstructFromSmallerVector) {
+
+	std::vector<int> data;
+	data.push_back(10);
+	data.push_back(11);
+	data.push_back(5);
+	data.push_back(9);
+
+	bounded_priority_queue<int> bpq(10, data);
+
+	BOOST_REQUIRE_EQUAL(bpq.size(), 4u);
+	BOOST_REQUIRE_EQUAL(bpq.max_size(), 10u);
+	BOOST_CHECK_EQUAL(bpq.top(), 5);
+	BOOST_CHECK_EQUAL(bpq.bottom(), 11);
+}
