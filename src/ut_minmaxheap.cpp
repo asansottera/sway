@@ -2,7 +2,7 @@
 
 #include <boost/test/unit_test.hpp>
 
-#include "minmaxheap.hpp"
+#include "sway/minmaxheap.hpp"
 #include <vector>
 #include <iostream>
 #include <stack>

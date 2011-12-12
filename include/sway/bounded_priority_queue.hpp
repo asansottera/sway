@@ -3,7 +3,7 @@
 #ifndef SWAY_BOUNDED_PRIORITY_QUEUE_H
 #define SWAY_BOUNDED_PRIORITY_QUEUE_H
 
-#include "minmaxheap.hpp"
+#include "sway/minmaxheap.hpp"
 #include <functional>
 #include <vector>
 
@@ -20,7 +20,7 @@ If no comparer template parameter is specified, the < operator is used.
 template<class T,
 		 class Container = std::vector<T>,
 		 class Compare = std::less<T> >
-class BoundedPriorityQueue {
+class bounded_priority_queue {
 private:
 	std::size_t m_count;
 	std::vector<T> m_heap;
@@ -29,7 +29,7 @@ public:
 	/*!
 	Constructs an empty bounded priority queue of the given size.
 	*/
-	BoundedPriorityQueue(std::size_t size, const Compare & comp = Compare())
+	bounded_priority_queue(std::size_t size, const Compare & comp = Compare())
 		: m_count(0), m_heap(size), m_comp(comp) {
 	}
 	/*!
@@ -37,7 +37,7 @@ public:
 	container. The maximum size of the priority queue is equal to the size
 	of the container.
 	*/
-	BoundedPriorityQueue(const Container & container,
+	bounded_priority_queue(const Container & container,
 						 const Compare & comp = Compare())
 		: m_count(0), m_heap(container.size()), m_comp(comp) {
 		typename Container::const_iterator itr;
@@ -51,7 +51,7 @@ public:
 	paramater and, in general, might be smaller than the size of the container.
 	In this case, the lowest priority elements are not inserted.
 	*/
-	BoundedPriorityQueue(std::size_t size,
+	bounded_priority_queue(std::size_t size,
 						 const Container & container,
 						 const Compare & comp = Compare())
 		: m_count(0), m_heap(size), m_comp(comp) {

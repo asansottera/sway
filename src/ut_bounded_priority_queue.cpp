@@ -2,13 +2,13 @@
 
 #include <boost/test/unit_test.hpp>
 
-#include "bounded_priority_queue.hpp"
+#include "sway/bounded_priority_queue.hpp"
 
 using namespace sway;
 
 BOOST_AUTO_TEST_CASE(TestBPQ) {
 
-	BoundedPriorityQueue<int> bpq(2);
+	bounded_priority_queue<int> bpq(2);
 
 	BOOST_REQUIRE_EQUAL(bpq.size(), 0u);
 	
@@ -37,7 +37,7 @@ BOOST_AUTO_TEST_CASE(TestBPQ) {
 
 BOOST_AUTO_TEST_CASE(TestBPQ2) {
 
-	BoundedPriorityQueue<int> bpq(3);
+	bounded_priority_queue<int> bpq(3);
 
 	BOOST_REQUIRE_EQUAL(bpq.size(), 0u);
 
@@ -60,7 +60,7 @@ BOOST_AUTO_TEST_CASE(TestBPQ2) {
 
 BOOST_AUTO_TEST_CASE(TestBPQSmall) {
 
-	BoundedPriorityQueue<int> bpq(2);
+	bounded_priority_queue<int> bpq(2);
 
 	bpq.push(1);
 	bpq.push(3);
