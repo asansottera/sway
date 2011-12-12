@@ -1,7 +1,7 @@
 // (C) Copyright Andrea Sansottera 2011
 
-#ifndef BOUNDED_PRIORITY_QUEUE_H
-#define BOUNDED_PRIORITY_QUEUE_H
+#ifndef SWAY_BOUNDED_PRIORITY_QUEUE_H
+#define SWAY_BOUNDED_PRIORITY_QUEUE_H
 
 #include "minmaxheap.hpp"
 #include <functional>

@@ -4,8 +4,8 @@
 //   M. D. Atkinson, J. R. Sack, N. Santoro and T. Strothotte
 //   Communications of the ACM, October 1986
 
-#ifndef MIN_MAX_HEAP_H
-#define MIN_MAX_HEAP_H
+#ifndef SWAY_MIN_MAX_HEAP_H
+#define SWAY_MIN_MAX_HEAP_H
 
 #include <algorithm>
 #include "ilog2.hpp"
