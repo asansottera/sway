@@ -5,6 +5,7 @@
 
 #include "MinMaxHeap.h"
 #include <functional>
+#include <vector>
 
 namespace sway {
 
@@ -14,22 +15,18 @@ Once the queue is full, the elements with the smallest priority are dropped.
 The implementation is based on the min-max heap implicit data structure (over an array).
 If no comparer functor is specified the default is to use the operator <.
 */
-template<class T, class Compare = std::less<T> >
+template<class T, class Container = std::vector<T>, class Compare = std::less<T> >
 class BoundedPriorityQueue {
 private:
-	unsigned int m_size;
-	unsigned int m_count;
-	T * m_heap;
+	std::size_t m_size;
+	std::size_t m_count;
+	std::vector<T> m_heap;
 	Compare m_comp;
 public:
-	BoundedPriorityQueue(unsigned int size, Compare comp = Compare()) {
+	BoundedPriorityQueue(std::size_t size, Compare comp = Compare()) : m_heap(size) {
 		m_size = size;
 		m_count = 0;
-		m_heap = new T[size];
 		m_comp = comp;
-	}
-	~BoundedPriorityQueue() {
-		delete[] m_heap;
 	}
 	/*!
 	Tries to add a new element to the queue.
@@ -38,14 +35,14 @@ public:
 	void push(T obj) {
 		if (m_count == m_size) {
 			if (m_comp(obj, bottom())) {
-				popmax_minmaxheap(m_heap, m_heap + m_size, m_comp);
+				popmax_minmaxheap(m_heap.begin(), m_heap.end(), m_comp);
 				m_heap[m_size - 1] = obj;
-				push_minmaxheap(m_heap, m_heap + m_count, m_comp);
+				push_minmaxheap(m_heap.begin(), m_heap.begin() + m_count, m_comp);
 			}
 		} else {
 			m_heap[m_count] = obj;
 			m_count++;
-			push_minmaxheap(m_heap, m_heap + m_count, m_comp);
+			push_minmaxheap(m_heap.begin(), m_heap.begin() + m_count, m_comp);
 		}
 
 	}
@@ -71,13 +68,13 @@ public:
 	Removes the highest priority element of the queue (by default, the smallest).
 	*/
 	void pop() {
-		popmin_minmaxheap(m_heap, m_heap + m_count, m_comp);
+		popmin_minmaxheap(m_heap.begin(), m_heap.begin() + m_count, m_comp);
 		m_count--;
 	}
 	/*!
 	Returns the number of elements stored in the queue.
 	*/
-	unsigned int size() const {
+	std::size_t size() const {
 		return m_count;
 	}
 };
