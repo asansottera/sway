@@ -3,7 +3,7 @@
 #ifndef SWAY_BOUNDED_PRIORITY_QUEUE_H
 #define SWAY_BOUNDED_PRIORITY_QUEUE_H
 
-#include "sway/minmaxheap.hpp"
+#include <sway/minmaxheap.hpp>
 #include <functional>
 #include <vector>
 

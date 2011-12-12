@@ -2,7 +2,7 @@
 
 #include <boost/test/unit_test.hpp>
 
-#include "sway/minmaxheap.hpp"
+#include <sway/minmaxheap.hpp>
 #include <vector>
 #include <iostream>
 #include <stack>
@@ -12,10 +12,10 @@ using namespace sway;
 
 void CheckMinMaxHeapPropertyPtr(vector<int *> & v) {
 	for (vector<int *>::iterator i = v.begin(); i < v.end(); i++) {
-		bool odd = getLevel(v.begin(), v.end(), i) % 2 == 1;
+		bool odd = get_level(v.begin(), v.end(), i) % 2 == 1;
 		stack<vector<int *>::iterator> descendants;
-		descendants.push(getLeftChild(v.begin(), v.end(), i));
-		descendants.push(getRightChild(v.begin(), v.end(), i));
+		descendants.push(get_left_child(v.begin(), v.end(), i));
+		descendants.push(get_right_child(v.begin(), v.end(), i));
 		while (descendants.size() > 0) {
 			vector<int *>::iterator j = descendants.top();
 			descendants.pop();
@@ -24,8 +24,8 @@ void CheckMinMaxHeapPropertyPtr(vector<int *> & v) {
 					BOOST_REQUIRE_LE(**j, **i);
 				else
 					BOOST_REQUIRE_GE(**j, **i);
-				descendants.push(getLeftChild(v.begin(), v.end(), j));
-				descendants.push(getRightChild(v.begin(), v.end(), j));
+				descendants.push(get_left_child(v.begin(), v.end(), j));
+				descendants.push(get_right_child(v.begin(), v.end(), j));
 			}
 		}
 	}
@@ -33,10 +33,10 @@ void CheckMinMaxHeapPropertyPtr(vector<int *> & v) {
 
 void CheckMinMaxHeapProperty(vector<int> & v) {
 	for (vector<int>::iterator i = v.begin(); i < v.end(); i++) {
-		bool odd = getLevel(v.begin(), v.end(), i) % 2 == 1;
+		bool odd = get_level(v.begin(), v.end(), i) % 2 == 1;
 		stack<vector<int>::iterator> descendants;
-		descendants.push(getLeftChild(v.begin(), v.end(), i));
-		descendants.push(getRightChild(v.begin(), v.end(), i));
+		descendants.push(get_left_child(v.begin(), v.end(), i));
+		descendants.push(get_right_child(v.begin(), v.end(), i));
 		while (descendants.size() > 0) {
 			vector<int>::iterator j = descendants.top();
 			descendants.pop();
@@ -45,8 +45,8 @@ void CheckMinMaxHeapProperty(vector<int> & v) {
 					BOOST_REQUIRE_LE(*j, *i);
 				else
 					BOOST_REQUIRE_GE(*j, *i);
-				descendants.push(getLeftChild(v.begin(), v.end(), j));
-				descendants.push(getRightChild(v.begin(), v.end(), j));
+				descendants.push(get_left_child(v.begin(), v.end(), j));
+				descendants.push(get_right_child(v.begin(), v.end(), j));
 			}
 		}
 	}

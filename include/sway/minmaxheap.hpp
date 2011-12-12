@@ -8,12 +8,12 @@
 #define SWAY_MIN_MAX_HEAP_H
 
 #include <algorithm>
-#include "ilog2.hpp"
+#include <sway/ilog2.hpp>
 
 namespace sway {
 
 template<class RAI>
-RAI getLeftChild(RAI first, RAI last, RAI i) {
+RAI get_left_child(RAI first, RAI last, RAI i) {
 	int offset = (i - first) * 2 + 1;
 	if (offset >= last - first) {
 		return last;
@@ -23,7 +23,7 @@ RAI getLeftChild(RAI first, RAI last, RAI i) {
 }
 
 template<class RAI>
-RAI getRightChild(RAI first, RAI last, RAI i) {
+RAI get_right_child(RAI first, RAI last, RAI i) {
 	int offset = (i - first) * 2 + 2;
 	if (offset >= last - first) {
 		return last;
@@ -33,14 +33,14 @@ RAI getRightChild(RAI first, RAI last, RAI i) {
 }
 
 template<class RAI>
-int getLevel(RAI first, RAI last, RAI i) {
+int get_level(RAI first, RAI last, RAI i) {
 	// the difference cannot be negative
 	std::size_t diff = static_cast<std::size_t>(i - first);
 	return ilog2(diff+1);
 }
 
 template<class RAI>
-RAI getParent(RAI first, RAI last, RAI i) {
+RAI get_parent(RAI first, RAI last, RAI i) {
 	int diff = i - first;
 	if (diff < 1) {
 		return last;
@@ -49,7 +49,7 @@ RAI getParent(RAI first, RAI last, RAI i) {
 }
 
 template<class RAI>
-RAI getGrandParent(RAI first, RAI last, RAI i) {
+RAI get_grand_parent(RAI first, RAI last, RAI i) {
 	int diff = i - first;
 	if (diff < 3) {
 		return last;
@@ -58,14 +58,14 @@ RAI getGrandParent(RAI first, RAI last, RAI i) {
 }
 
 template<class RAI>
-RAI getSmallestChildOrGrandchild(RAI first, RAI last, RAI i) {
+RAI get_smallest_child_or_grandchild(RAI first, RAI last, RAI i) {
 	/* If there are no children, return last */
 	RAI smallest = last;
-	RAI left = getLeftChild(first, last, i);
+	RAI left = get_left_child(first, last, i);
 	if (left < last) {
 		smallest = left;
-		RAI leftLeft = getLeftChild(first, last, left);
-		RAI leftRight = getRightChild(first, last, left);
+		RAI leftLeft = get_left_child(first, last, left);
+		RAI leftRight = get_right_child(first, last, left);
 		if (leftLeft < last && *leftLeft < *smallest) {
 			smallest = leftLeft;
 		}
@@ -73,13 +73,13 @@ RAI getSmallestChildOrGrandchild(RAI first, RAI last, RAI i) {
 			smallest = leftRight;
 		}
 	}
-	RAI right = getRightChild(first, last, i);
+	RAI right = get_right_child(first, last, i);
 	if (right < last) {
 		if (*right < *smallest) {
 			smallest = right;
 		}
-		RAI rightLeft = getLeftChild(first, last, right);
-		RAI rightRight = getRightChild(first, last, right);
+		RAI rightLeft = get_left_child(first, last, right);
+		RAI rightRight = get_right_child(first, last, right);
 		if (rightLeft < last && *rightLeft < *smallest) {
 			smallest = rightLeft;
 		}
@@ -91,14 +91,17 @@ RAI getSmallestChildOrGrandchild(RAI first, RAI last, RAI i) {
 }
 
 template<class RAI, class Compare>
-RAI getSmallestChildOrGrandchild(RAI first, RAI last, RAI i, Compare comp) {
+RAI get_smallest_child_or_grandchild(RAI first,
+									 RAI last,
+									 RAI i,
+									 Compare comp) {
 	/* If there are no children, return last */
 	RAI smallest = last;
-	RAI left = getLeftChild(first, last, i);
+	RAI left = get_left_child(first, last, i);
 	if (left < last) {
 		smallest = left;
-		RAI leftLeft = getLeftChild(first, last, left);
-		RAI leftRight = getRightChild(first, last, left);
+		RAI leftLeft = get_left_child(first, last, left);
+		RAI leftRight = get_right_child(first, last, left);
 		if (leftLeft < last && comp(*leftLeft, *smallest)) {
 			smallest = leftLeft;
 		}
@@ -106,13 +109,13 @@ RAI getSmallestChildOrGrandchild(RAI first, RAI last, RAI i, Compare comp) {
 			smallest = leftRight;
 		}
 	}
-	RAI right = getRightChild(first, last, i);
+	RAI right = get_right_child(first, last, i);
 	if (right < last) {
 		if (comp(*right, *smallest)) {
 			smallest = right;
 		}
-		RAI rightLeft = getLeftChild(first, last, right);
-		RAI rightRight = getRightChild(first, last, right);
+		RAI rightLeft = get_left_child(first, last, right);
+		RAI rightRight = get_right_child(first, last, right);
 		if (rightLeft < last && comp(*rightLeft, *smallest)) {
 			smallest = rightLeft;
 		}
@@ -124,14 +127,14 @@ RAI getSmallestChildOrGrandchild(RAI first, RAI last, RAI i, Compare comp) {
 }
 
 template<class RAI>
-RAI getLargestChildOrGrandchild(RAI first, RAI last, RAI i) {
+RAI get_largest_child_or_grandchild(RAI first, RAI last, RAI i) {
 	/* If there are no children return last */
 	RAI largest = last;
-	RAI left = getLeftChild(first, last, i);
+	RAI left = get_left_child(first, last, i);
 	if (left < last) {
 		largest = left;
-		RAI leftLeft = getLeftChild(first, last, left);
-		RAI leftRight = getRightChild(first, last, left);
+		RAI leftLeft = get_left_child(first, last, left);
+		RAI leftRight = get_right_child(first, last, left);
 		if (leftLeft < last && *leftLeft > *largest) {
 			largest = leftLeft;
 		}
@@ -139,13 +142,13 @@ RAI getLargestChildOrGrandchild(RAI first, RAI last, RAI i) {
 			largest = leftRight;
 		}
 	}
-	RAI right = getRightChild(first, last, i);
+	RAI right = get_right_child(first, last, i);
 	if (right < last) {
 		if (*right > *largest) {
 			largest = right;
 		}
-		RAI rightLeft = getLeftChild(first, last, right);
-		RAI rightRight = getRightChild(first, last, right);
+		RAI rightLeft = get_left_child(first, last, right);
+		RAI rightRight = get_right_child(first, last, right);
 		if (rightLeft < last && *rightLeft > *largest) {
 			largest = rightLeft;
 		}
@@ -157,14 +160,14 @@ RAI getLargestChildOrGrandchild(RAI first, RAI last, RAI i) {
 }
 
 template<class RAI, class Compare>
-RAI getLargestChildOrGrandchild(RAI first, RAI last, RAI i, Compare comp) {
+RAI get_largest_child_or_grandchild(RAI first, RAI last, RAI i, Compare comp) {
 	/* If there are no children return last */
 	RAI largest = last;
-	RAI left = getLeftChild(first, last, i);
+	RAI left = get_left_child(first, last, i);
 	if (left < last) {
 		largest = left;
-		RAI leftLeft = getLeftChild(first, last, left);
-		RAI leftRight = getRightChild(first, last, left);
+		RAI leftLeft = get_left_child(first, last, left);
+		RAI leftRight = get_right_child(first, last, left);
 		if (leftLeft < last && comp(*largest, *leftLeft)) {
 			largest = leftLeft;
 		}
@@ -172,13 +175,13 @@ RAI getLargestChildOrGrandchild(RAI first, RAI last, RAI i, Compare comp) {
 			largest = leftRight;
 		}
 	}
-	RAI right = getRightChild(first, last, i);
+	RAI right = get_right_child(first, last, i);
 	if (right < last) {
 		if (comp(*largest, *right)) {
 			largest = right;
 		}
-		RAI rightLeft = getLeftChild(first, last, right);
-		RAI rightRight = getRightChild(first, last, right);
+		RAI rightLeft = get_left_child(first, last, right);
+		RAI rightRight = get_right_child(first, last, right);
 		if (rightLeft < last && comp(*largest, *rightLeft)) {
 			largest = rightLeft;
 		}
@@ -190,17 +193,17 @@ RAI getLargestChildOrGrandchild(RAI first, RAI last, RAI i, Compare comp) {
 }
 
 template<class RAI>
-void trickleDownMin(RAI first, RAI last, RAI i) {
-	if (getLeftChild(first, last, i) < last) {
-		RAI m = getSmallestChildOrGrandchild(first, last, i);
-		if (getGrandParent(first, last, m) == i) {
+void trickle_down_min(RAI first, RAI last, RAI i) {
+	if (get_left_child(first, last, i) < last) {
+		RAI m = get_smallest_child_or_grandchild(first, last, i);
+		if (get_grand_parent(first, last, m) == i) {
 			if (*m < *i) {
 				std::iter_swap(m, i);
-				RAI parent = getParent(first, last, m);
+				RAI parent = get_parent(first, last, m);
 				if (*m > *parent) {
 					std::iter_swap(m, parent);
 				}
-				trickleDownMin(first, last, m);
+				trickle_down_min(first, last, m);
 			}
 		} else {
 			if (*m < *i) {
@@ -211,17 +214,17 @@ void trickleDownMin(RAI first, RAI last, RAI i) {
 }
 
 template<class RAI, class Compare>
-void trickleDownMin(RAI first, RAI last, RAI i, Compare comp) {
-	if (getLeftChild(first, last, i) < last) {
-		RAI m = getSmallestChildOrGrandchild(first, last, i, comp);
-		if (getGrandParent(first, last, m) == i) {
+void trickle_down_min(RAI first, RAI last, RAI i, Compare comp) {
+	if (get_left_child(first, last, i) < last) {
+		RAI m = get_smallest_child_or_grandchild(first, last, i, comp);
+		if (get_grand_parent(first, last, m) == i) {
 			if (comp(*m, *i)) {
 				std::iter_swap(m, i);
-				RAI parent = getParent(first, last, m);
+				RAI parent = get_parent(first, last, m);
 				if (comp(*parent, *m)) {
 					std::iter_swap(m, parent);
 				}
-				trickleDownMin(first, last, m, comp);
+				trickle_down_min(first, last, m, comp);
 			}
 		} else {
 			if (comp(*m, *i)) {
@@ -232,17 +235,17 @@ void trickleDownMin(RAI first, RAI last, RAI i, Compare comp) {
 }
 
 template<class RAI>
-void trickleDownMax(RAI first, RAI last, RAI i) {
-	if (getLeftChild(first, last,i) < last) {
-		RAI m = getLargestChildOrGrandchild(first, last, i);
-		if (getGrandParent(first, last, m) == i) {
+void trickle_down_max(RAI first, RAI last, RAI i) {
+	if (get_left_child(first, last,i) < last) {
+		RAI m = get_largest_child_or_grandchild(first, last, i);
+		if (get_grand_parent(first, last, m) == i) {
 			if (*m > *i) {
 				std::iter_swap(m, i);
-				RAI parent = getParent(first, last, m);
+				RAI parent = get_parent(first, last, m);
 				if (*m < *parent) {
 					std::iter_swap(m, parent);
 				}
-				trickleDownMax(first, last, m);
+				trickle_down_max(first, last, m);
 			}
 		} else {
 			if (*m > *i) {
@@ -253,17 +256,17 @@ void trickleDownMax(RAI first, RAI last, RAI i) {
 }
 
 template<class RAI, class Compare>
-void trickleDownMax(RAI first, RAI last, RAI i, Compare comp) {
-	if (getLeftChild(first, last,i) < last) {
-		RAI m = getLargestChildOrGrandchild(first, last, i, comp);
-		if (getGrandParent(first, last, m) == i) {
+void trickle_down_max(RAI first, RAI last, RAI i, Compare comp) {
+	if (get_left_child(first, last,i) < last) {
+		RAI m = get_largest_child_or_grandchild(first, last, i, comp);
+		if (get_grand_parent(first, last, m) == i) {
 			if (comp(*i, *m)) {
 				std::iter_swap(m, i);
-				RAI parent = getParent(first, last, m);
+				RAI parent = get_parent(first, last, m);
 				if (comp(*m, *parent)) {
 					std::iter_swap(m, parent);
 				}
-				trickleDownMax(first, last, m, comp);
+				trickle_down_max(first, last, m, comp);
 			}
 		} else {
 			if (comp(*i, *m)) {
@@ -274,96 +277,96 @@ void trickleDownMax(RAI first, RAI last, RAI i, Compare comp) {
 }
 
 template<class RAI>
-void trickleDown(RAI first, RAI last, RAI i) {
-	if (getLevel(first, last, i) % 2 == 0) {
-		trickleDownMin(first, last, i);
+void trickle_down(RAI first, RAI last, RAI i) {
+	if (get_level(first, last, i) % 2 == 0) {
+		trickle_down_min(first, last, i);
 	} else {
-		trickleDownMax(first, last, i);
+		trickle_down_max(first, last, i);
 	}
 }
 
 template<class RAI, class Compare>
-void trickleDown(RAI first, RAI last, RAI i, Compare comp) {
-	if (getLevel(first, last, i) % 2 == 0) {
-		trickleDownMin(first, last, i, comp);
+void trickle_down(RAI first, RAI last, RAI i, Compare comp) {
+	if (get_level(first, last, i) % 2 == 0) {
+		trickle_down_min(first, last, i, comp);
 	} else {
-		trickleDownMax(first, last, i, comp);
+		trickle_down_max(first, last, i, comp);
 	}
 }
 
 template<class RAI>
-void bubbleUpMin(RAI first, RAI last, RAI i) {
-	RAI gp = getGrandParent(first, last, i);
+void bubble_up_min(RAI first, RAI last, RAI i) {
+	RAI gp = get_grand_parent(first, last, i);
 	if (gp != last && *i < *gp) {
 		std::iter_swap(i, gp);
-		bubbleUpMin(first, last, gp);
+		bubble_up_min(first, last, gp);
 	}
 }
 
 template<class RAI, class Compare>
-void bubbleUpMin(RAI first, RAI last, RAI i, Compare comp) {
-	RAI gp = getGrandParent(first, last, i);
+void bubble_up_min(RAI first, RAI last, RAI i, Compare comp) {
+	RAI gp = get_grand_parent(first, last, i);
 	if (gp != last && comp(*i, *gp)) {
 		std::iter_swap(i, gp);
-		bubbleUpMin(first, last, gp, comp);
+		bubble_up_min(first, last, gp, comp);
 	}
 }
 
 template<class RAI>
-void bubbleUpMax(RAI first, RAI last, RAI i) {
-	RAI gp = getGrandParent(first, last, i);
+void bubble_up_max(RAI first, RAI last, RAI i) {
+	RAI gp = get_grand_parent(first, last, i);
 	if (gp != last && *i > *gp) {
 		std::iter_swap(i, gp);
-		bubbleUpMax(first, last, gp);
+		bubble_up_max(first, last, gp);
 	}
 }
 
 template<class RAI, class Compare>
-void bubbleUpMax(RAI first, RAI last, RAI i, Compare comp) {
-	RAI gp = getGrandParent(first, last, i);
+void bubble_up_max(RAI first, RAI last, RAI i, Compare comp) {
+	RAI gp = get_grand_parent(first, last, i);
 	if (gp != last && comp(*gp, *i)) {
 		std::iter_swap(i, gp);
-		bubbleUpMax(first, last, gp, comp);
+		bubble_up_max(first, last, gp, comp);
 	}
 }
 
 
 template<class RAI>
-void bubbleUp(RAI first, RAI last, RAI i) {
-	RAI parent = getParent(first, last, i);
-	if (getLevel(first, last, i) % 2 == 0) {
+void bubble_up(RAI first, RAI last, RAI i) {
+	RAI parent = get_parent(first, last, i);
+	if (get_level(first, last, i) % 2 == 0) {
 		if (parent != last && *i > *parent) {
 			std::iter_swap(i, parent);
-			bubbleUpMax(first, last, parent);
+			bubble_up_max(first, last, parent);
 		} else {
-			bubbleUpMin(first, last, i);
+			bubble_up_min(first, last, i);
 		}
 	} else {
 		if (parent != last && *i < *parent) {
 			std::iter_swap(i, parent);
-			bubbleUpMin(first, last, parent);
+			bubble_up_min(first, last, parent);
 		} else {
-			bubbleUpMax(first, last, i);
+			bubble_up_max(first, last, i);
 		}
 	}
 }
 
 template<class RAI, class Compare>
-void bubbleUp(RAI first, RAI last, RAI i, Compare comp) {
-	RAI parent = getParent(first, last, i);
-	if (getLevel(first, last, i) % 2 == 0) {
+void bubble_up(RAI first, RAI last, RAI i, Compare comp) {
+	RAI parent = get_parent(first, last, i);
+	if (get_level(first, last, i) % 2 == 0) {
 		if (parent != last && comp(*parent, *i)) {
 			std::iter_swap(i, parent);
-			bubbleUpMax(first, last, parent, comp);
+			bubble_up_max(first, last, parent, comp);
 		} else {
-			bubbleUpMin(first, last, i, comp);
+			bubble_up_min(first, last, i, comp);
 		}
 	} else {
 		if (parent != last && comp(*i, *parent)) {
 			std::iter_swap(i, parent);
-			bubbleUpMin(first, last, parent, comp);
+			bubble_up_min(first, last, parent, comp);
 		} else {
-			bubbleUpMax(first, last, i, comp);
+			bubble_up_max(first, last, i, comp);
 		}
 	}
 }
@@ -373,9 +376,9 @@ void make_minmaxheap(RAI first, RAI last) {
 	if (last - first >= 2) {
 		int offset = (last - first) / 2 - 1;
 		for (RAI i = first + offset; i > first; --i) {
-			trickleDown(first, last, i);
+			trickle_down(first, last, i);
 		}
-		trickleDown(first, last, first);
+		trickle_down(first, last, first);
 	}
 }
 
@@ -387,16 +390,16 @@ void make_minmaxheap(RAI first, RAI last, Compare comp) {
 	if (last - first >= 2) {
 		int offset = (last - first) / 2 - 1;
 		for (RAI i = first + offset; i > first; --i) {
-			trickleDown(first, last, i, comp);
+			trickle_down(first, last, i, comp);
 		}
-		trickleDown(first, last, first, comp);
+		trickle_down(first, last, first, comp);
 	}
 }
 
 template<class RAI>
 void popmin_minmaxheap(RAI first, RAI last) {
 	std::iter_swap(first, last-1);
-	trickleDown(first, last-1, first);
+	trickle_down(first, last-1, first);
 }
 
 /*!
@@ -406,7 +409,7 @@ shortening the actual min-max heap range by one position.
 template<class RAI, class Compare>
 void popmin_minmaxheap(RAI first, RAI last, Compare comp) {
 	std::iter_swap(first, last-1);
-	trickleDown(first, last-1, first, comp);
+	trickle_down(first, last-1, first, comp);
 }
 
 template<class RAI>
@@ -416,10 +419,10 @@ void popmax_minmaxheap(RAI first, RAI last) {
 	}
 	if (last-first == 2 || *(first+1) > *(first+2)) {
 		std::iter_swap(first+1, last-1);
-		trickleDown(first, last-1, first+1);
+		trickle_down(first, last-1, first+1);
 	} else {
 		std::iter_swap(first+2, last-1);
-		trickleDown(first, last-1, first+2);
+		trickle_down(first, last-1, first+2);
 	}
 }
 
@@ -433,16 +436,16 @@ void popmax_minmaxheap(RAI first, RAI last, Compare comp) {
 	}
 	if (last-first == 2 || comp(*(first+2), *(first+1))) {
 		std::iter_swap(first+1, last-1);
-		trickleDown(first, last-1, first+1, comp);
+		trickle_down(first, last-1, first+1, comp);
 	} else {
 		std::iter_swap(first+2, last-1);
-		trickleDown(first, last-1, first+2, comp);
+		trickle_down(first, last-1, first+2, comp);
 	}
 }
 
 template<class RAI>
 void push_minmaxheap(RAI first, RAI last) {
-	bubbleUp(first, last, last-1);
+	bubble_up(first, last, last-1);
 }
 
 /*!
@@ -451,7 +454,7 @@ last-1) position to its correct position.
 */
 template<class RAI, class Compare>
 void push_minmaxheap(RAI first, RAI last, Compare comp) {
-	bubbleUp(first, last, last-1, comp);
+	bubble_up(first, last, last-1, comp);
 }
 
 }

@@ -52,7 +52,7 @@ ifneq ($(MAKECMDGOALS),clean)
 -include $(DEP_FILES)
 endif
 
-dep/%.d: src/%.cpp include/*.hpp
+dep/%.d: src/%.cpp include/**/*.hpp
 	$(DEP) $(DEPFLAGS) \
 	-MM $(patsubst dep/%.d,src/%.cpp,$@) \
 	-MT $(patsubst dep/%.d,obj/opt/%.o,$@) \
