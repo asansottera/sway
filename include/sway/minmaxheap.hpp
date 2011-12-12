@@ -14,7 +14,8 @@ namespace sway {
 
 template<class RAI>
 RAI get_left_child(RAI first, RAI last, RAI i) {
-	int offset = (i - first) * 2 + 1;
+	typedef typename std::iterator_traits<RAI>::difference_type diff_t;
+	diff_t offset = (i - first) * 2 + 1;
 	if (offset >= last - first) {
 		return last;
 	} else {
@@ -24,7 +25,8 @@ RAI get_left_child(RAI first, RAI last, RAI i) {
 
 template<class RAI>
 RAI get_right_child(RAI first, RAI last, RAI i) {
-	int offset = (i - first) * 2 + 2;
+	typedef typename std::iterator_traits<RAI>::difference_type diff_t;
+	diff_t offset = (i - first) * 2 + 2;
 	if (offset >= last - first) {
 		return last;
 	} else {
@@ -33,15 +35,16 @@ RAI get_right_child(RAI first, RAI last, RAI i) {
 }
 
 template<class RAI>
-int get_level(RAI first, RAI last, RAI i) {
-	// the difference cannot be negative
+std::size_t get_level(RAI first, RAI last, RAI i) {
+	// the difference cannot be negative, so we can cast to unsigned type
 	std::size_t diff = static_cast<std::size_t>(i - first);
 	return ilog2(diff+1);
 }
 
 template<class RAI>
 RAI get_parent(RAI first, RAI last, RAI i) {
-	int diff = i - first;
+	typedef typename std::iterator_traits<RAI>::difference_type diff_t;
+	diff_t diff = i - first;
 	if (diff < 1) {
 		return last;
 	}
@@ -50,7 +53,8 @@ RAI get_parent(RAI first, RAI last, RAI i) {
 
 template<class RAI>
 RAI get_grand_parent(RAI first, RAI last, RAI i) {
-	int diff = i - first;
+	typedef typename std::iterator_traits<RAI>::difference_type diff_t;
+	diff_t diff = i - first;
 	if (diff < 3) {
 		return last;
 	}
@@ -373,8 +377,9 @@ void bubble_up(RAI first, RAI last, RAI i, Compare comp) {
 
 template<class RAI>
 void make_minmaxheap(RAI first, RAI last) {
+	typedef typename std::iterator_traits<RAI>::difference_type diff_t;
 	if (last - first >= 2) {
-		int offset = (last - first) / 2 - 1;
+		diff_t offset = (last - first) / 2 - 1;
 		for (RAI i = first + offset; i > first; --i) {
 			trickle_down(first, last, i);
 		}
@@ -387,8 +392,9 @@ Rearranges the values in the range [first,last) as a min-max heap.
 */
 template<class RAI, class Compare>
 void make_minmaxheap(RAI first, RAI last, Compare comp) {
+	typedef typename std::iterator_traits<RAI>::difference_type diff_t;
 	if (last - first >= 2) {
-		int offset = (last - first) / 2 - 1;
+		diff_t offset = (last - first) / 2 - 1;
 		for (RAI i = first + offset; i > first; --i) {
 			trickle_down(first, last, i, comp);
 		}

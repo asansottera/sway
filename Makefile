@@ -15,24 +15,24 @@ ifeq ($(TOOLS),intel)
 CXX=icpc
 DEP=icpc
 LINK=icpc
-DEPFLAGS=-std=c++0x
-CXXFLAGS_DBG=-O0 -g -std=c++0x -Wall -Wsign-compare -Wcheck -wd279
-CXXFLAGS_OPT=-O2 -xHost -std=c++0x -Wall -Wsign-compare -Wcheck -wd279
+DEPFLAGS=
+CXXFLAGS_DBG=-O0 -g -Wall -Wsign-compare -wd279
+CXXFLAGS_OPT=-O2 -xHost -Wall -Wsign-compare -wd279
 else
 ifeq ($(TOOLS),clang)
 CXX=clang++
 DEP=clang++
 LINK=clang++
-DEPFLAGS=-std=c++0x
-CXXFLAGS_DBG=-O0 -g -std=c++0x -Wall
-CXXFLAGS_OPT=-O2 -march=native -Wall
+DEPFLAGS=
+CXXFLAGS_DBG=-O0 -g -Wall -Wno-unused-variable
+CXXFLAGS_OPT=-O2 -march=native -Wall -Wno-unused-variable
 else
 CXX=g++
 DEP=g++
 LINK=g++
-DEPFLAGS=-std=c++0x
-CXXFLAGS_DBG=-O0 -g -std=c++0x -Wall -Wsign-compare
-CXXFLAGS_OPT=-O2 -march=native -std=c++0x -Wall -Wsign-compare
+DEPFLAGS=
+CXXFLAGS_DBG=-O0 -g -Wall -Wsign-compare
+CXXFLAGS_OPT=-O2 -march=native -Wall -Wsign-compare
 endif
 endif
 

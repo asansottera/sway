@@ -4,7 +4,7 @@
 #ifndef SWAY_ILOG2_H
 #define SWAY_ILOG2_H
 
-#include <cstdint>
+#include <boost/cstdint.hpp>
 
 namespace sway {
 
