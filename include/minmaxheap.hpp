@@ -8,19 +8,34 @@
 #define MIN_MAX_HEAP_H
 
 #include <algorithm>
-#include <cmath>
+#include <cstdint>
 
 namespace sway {
 
-inline unsigned int ilog2(register unsigned int x) 
-{
-    register unsigned int l=0;
-    if(x >= 1<<16) { x>>=16; l|=16; }
-    if(x >= 1<<8) { x>>=8; l|=8; }
-    if(x >= 1<<4) { x>>=4; l|=4; }
-    if(x >= 1<<2) { x>>=2; l|=2; }
-    if(x >= 1<<1) l|=1;
+template<class T>
+T ilog2(T x);
+
+template<>
+inline uint32_t ilog2(uint32_t x) {
+    register uint32_t l = 0;
+    if(x >= 1<<16) { x >>= 16; l |= 16; }
+    if(x >= 1<<8) { x >>= 8; l |= 8; }
+    if(x >= 1<<4) { x >>= 4; l |= 4; }
+    if(x >= 1<<2) { x >>= 2; l |= 2; }
+    if(x >= 1<<1) l |= 1;
     return l;
+}
+
+template<>
+inline uint64_t ilog2(uint64_t x) {
+	register uint64_t l = 0;
+	if (x >= static_cast<uint64_t>(1) << 32) { x >>= 32; l |= 32; }
+	if (x >= static_cast<uint64_t>(1) << 16) { x >>= 16; l |= 16; }
+	if (x >= static_cast<uint64_t>(1) << 8) { x >>= 8; l |= 8; }
+	if (x >= static_cast<uint64_t>(1) << 4) { x >>= 4; l |= 4; }
+	if (x >= static_cast<uint64_t>(1) << 2) { x >>= 2; l |= 2; }
+	if (x >= static_cast<uint64_t>(1) << 1) l |= 1; 
+	return l;
 }
 
 template<class RAI>
@@ -45,7 +60,8 @@ RAI getRightChild(RAI first, RAI last, RAI i) {
 
 template<class RAI>
 int getLevel(RAI first, RAI last, RAI i) {
-	int diff = i - first;
+	// the difference cannot be negative
+	std::size_t diff = static_cast<std::size_t>(i - first);
 	return ilog2(diff+1);
 }
 
