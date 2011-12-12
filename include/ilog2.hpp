@@ -30,6 +30,18 @@ static const uint8_t ilog2_lookup[256] = {
 	7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7 };
 
 template<>
+inline uint8_t ilog2(uint8_t x) {
+    return ilog2_lookup[x];
+}
+
+template<>
+inline uint16_t ilog2(uint16_t x) {
+	register uint16_t tmp;
+	if ((tmp = x >> 8)) return 8 + ilog2_lookup[tmp];
+    return ilog2_lookup[x];
+}
+
+template<>
 inline uint32_t ilog2(uint32_t x) {
 	register uint32_t tmp;
 	if ((tmp = x >> 24)) return 24 + ilog2_lookup[tmp];
