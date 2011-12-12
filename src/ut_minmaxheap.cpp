@@ -2,7 +2,7 @@
 
 #include <boost/test/unit_test.hpp>
 
-#include "MinMaxHeap.h"
+#include "minmaxheap.hpp"
 #include <vector>
 #include <iostream>
 #include <stack>

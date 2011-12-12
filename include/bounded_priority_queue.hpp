@@ -3,7 +3,7 @@
 #ifndef BOUNDED_PRIORITY_QUEUE_H
 #define BOUNDED_PRIORITY_QUEUE_H
 
-#include "MinMaxHeap.h"
+#include "minmaxheap.hpp"
 #include <functional>
 #include <vector>
 

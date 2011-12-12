@@ -2,7 +2,7 @@
 
 #include <boost/test/unit_test.hpp>
 
-#include "BoundedPriorityQueue.h"
+#include "bounded_priority_queue.hpp"
 
 using namespace sway;
 
