@@ -379,6 +379,9 @@ void make_minmaxheap(RAI first, RAI last) {
 	}
 }
 
+/*!
+Rearranges the values in the range [first,last) as a min-max heap.
+*/
 template<class RAI, class Compare>
 void make_minmaxheap(RAI first, RAI last, Compare comp) {
 	if (last - first >= 2) {
@@ -396,6 +399,10 @@ void popmin_minmaxheap(RAI first, RAI last) {
 	trickleDown(first, last-1, first);
 }
 
+/*!
+Moves the smallest value in the min-max heap to the end of the sequence,
+shortening the actual min-max heap range by one position.
+*/
 template<class RAI, class Compare>
 void popmin_minmaxheap(RAI first, RAI last, Compare comp) {
 	std::iter_swap(first, last-1);
@@ -416,6 +423,9 @@ void popmax_minmaxheap(RAI first, RAI last) {
 	}
 }
 
+/*!
+Moves the largest value in the min-max heap to the end of the sequence,
+shortening the actual min-max heap range by one position. */
 template<class RAI, class Compare>
 void popmax_minmaxheap(RAI first, RAI last, Compare comp) {
 	if (last-first < 2) {
@@ -435,6 +445,10 @@ void push_minmaxheap(RAI first, RAI last) {
 	bubbleUp(first, last, last-1);
 }
 
+/*!
+Given a min-max heap on the range [first,last), moves the element in the 
+last-1) position to its correct position.
+*/
 template<class RAI, class Compare>
 void push_minmaxheap(RAI first, RAI last, Compare comp) {
 	bubbleUp(first, last, last-1, comp);
