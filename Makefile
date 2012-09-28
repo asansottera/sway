@@ -22,7 +22,8 @@
 OBJS=\
 	ut.o \
 	ut_minmaxheap.o \
-	ut_bounded_priority_queue.o
+	ut_bounded_priority_queue.o\
+	ut_configuration.o
 OBJ_OPT_FILES=$(patsubst %.o,obj/opt/%.o,$(OBJS))
 OBJ_DBG_FILES=$(patsubst %.o,obj/dbg/%.o,$(OBJS))
 
