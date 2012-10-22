@@ -171,9 +171,10 @@ public:
 		if (itr != m_children->end()) {
 			return itr->second;
 		} else {
-			std::stringstream msg;
-			msg << "Group \"" << name << "\" not found";
-			throw configuration_error(msg.str());
+            return configuration();
+			//std::stringstream msg;
+			//msg << "Group \"" << name << "\" not found";
+			//throw configuration_error(msg.str());
 		}
 	}
 };
