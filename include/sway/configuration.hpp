@@ -156,14 +156,9 @@ public:
 		return result;
 	}
 	/*! Returns the names of the options whose value has not been read yet. */
-	std::vector<std::string> unused() const {
-		std::vector<std::string> res;
-		option_map::const_iterator i;
-		for (i = m_options->begin(); i != m_options->end(); ++i) {
-			if (i->second.use_count == 0) {
-				res.push_back(i->first);
-			}
-		}
+	std::vector<std::string> unused(bool recursive = false) const {
+        std::vector<std::string> res;
+        unused_recursive(res, recursive);
 		return res;
 	}
 	configuration group(const std::string & name) {
@@ -176,6 +171,25 @@ public:
 			//msg << "Group \"" << name << "\" not found";
 			//throw configuration_error(msg.str());
 		}
+	}
+private:
+	void unused_recursive(std::vector<std::string> & res, bool recursive) const {
+		option_map::const_iterator i;
+		for (i = m_options->begin(); i != m_options->end(); ++i) {
+			if (i->second.use_count == 0) {
+				res.push_back(i->first);
+			}
+		}
+        if (recursive) {
+            child_map::const_iterator j;
+            for (j = m_children->begin(); j != m_children->end(); ++j) {
+                std::string child_name = j->first;
+                std::vector<std::string> child_res = j->second.unused(true);
+                for (unsigned k = 0; k < child_res.size(); ++k) {
+                    res.push_back(child_name + "." + child_res[k]);
+                }
+            }
+        }
 	}
 };
 
