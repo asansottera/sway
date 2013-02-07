@@ -57,7 +57,7 @@ private:
 	typedef boost::shared_ptr<child_map> child_map_ptr;
 	mutable option_map_ptr m_options;
 	mutable child_map_ptr m_children;
-private:
+public:
 	configuration() {
 		m_options.reset(new option_map);
 		m_children.reset(new child_map);
