@@ -96,6 +96,12 @@ public:
 	static configuration from_file(const std::string & file_name) {
 		configuration cfg;
 		std::ifstream f(file_name.data());
+        if (f.fail()) {
+            std::stringstream msg;
+            msg << "Configuration file \"" << file_name;
+            msg <<  "\" could not be opened.";
+            throw configuration_error(msg.str());
+        }
 		std::string line;
 		std::vector<std::string> splitted;
 		std::size_t i = 0;
