@@ -10,11 +10,12 @@ This project contains:
 
 Min-max heaps allow the following operations:
  - construction (make_minmaxheap), complexity O(N)
- - access to minimum element, O(1)
- - access to maximum element, O(1)
+ - access to minimum element (min_minmaxheap), O(1)
+ - access to maximum element (max_minmaxheap), O(1)
  - insertion (push_minmaxheap), complexity O(log N)
  - removal of minimum element (popmin_minmaxheap), complexity O(log N)
  - removal of maximum element (popmax_minmaxheap), complexity O(log N)
+ 
 Reference: <i>Min-Max Heaps and Generalized Priority Queues</i>, M. D. Atkinson, J. R. Sack, N. Santoro and T. Strothotte, Communications of the ACM, October 1986
 
 The min-max heap implementation makes use of the fast integer log-2 routine available here:
