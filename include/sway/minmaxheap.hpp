@@ -32,6 +32,7 @@ Based on the research paper:
 #define SWAY_MIN_MAX_HEAP_HPP
 
 #include <algorithm>
+#include <iterator>
 #include <sway/detail/minmaxheap.hpp>
 
 namespace sway {
@@ -121,6 +122,50 @@ last-1) position to its correct position.
 template<class RAI, class Compare>
 void push_minmaxheap(RAI first, RAI last, Compare comp) {
 	bubble_up(first, last, last-1, comp);
+}
+
+template<class RAI>
+RAI min_minmaxheap(RAI first, RAI last) {
+    return first;
+}
+
+/*! Returns an iterator pointing to the smallest element. */
+template<class RAI, class Compare>
+RAI min_minmaxheap(RAI first, RAI last, Compare comp) {
+    return first;
+}
+
+template<class RAI>
+RAI max_minmaxheap(RAI first, RAI last) {
+    typedef typename std::iterator_traits<RAI>::difference_type diff_t;
+    diff_t count = last - first;
+    if (count == 1) {
+        return first;
+    }
+    RAI second = first + 1;
+    if (count == 2) {
+        return second;
+    }
+    // largest can be either the second or the third element
+    RAI third = second + 1;
+    return (*third < *second) ? second : third;
+}
+
+/*! Returns an iterator pointing to the largest element. */
+template<class RAI, class Compare>
+RAI max_minmaxheap(RAI first, RAI last, Compare comp) {
+    typedef typename std::iterator_traits<RAI>::difference_type diff_t;
+    diff_t count = last - first;
+    if (count == 1) {
+        return first;
+    }
+    RAI second = first + 1;
+    if (count == 2) {
+        return second;
+    }
+    // largest can be either the second or the third element
+    RAI third = second + 1;
+    return comp(*third, *second) ? second : third;
 }
 
 }

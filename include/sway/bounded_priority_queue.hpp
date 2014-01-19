@@ -109,19 +109,13 @@ public:
 	Returns a reference to the highest priority element of the queue.
 	*/
 	const T & top() const {
-		return m_heap[0];
+		return *(min_minmaxheap(m_heap.begin(), m_heap.end(), m_comp));
 	}
 	/*!
 	Returns a reference to the lowest priority element of the queue.
 	*/
 	const T & bottom() const {
-		if (m_count == 1) {
-			return m_heap[0];
-		}
-		if (m_count == 2) {
-			return m_heap[1];
-		}
-		return m_comp(m_heap[2], m_heap[1]) ? m_heap[1] : m_heap[2];
+        return *(max_minmaxheap(m_heap.begin(), m_heap.end(), m_comp));
 	}
 	/*!
 	Removes the highest priority element of the queue.
